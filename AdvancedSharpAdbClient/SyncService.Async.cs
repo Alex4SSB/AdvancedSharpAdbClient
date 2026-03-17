@@ -684,7 +684,7 @@ namespace AdvancedSharpAdbClient
 #else
             byte[] statResult = new byte[FileStatisticsData.Length];
             _ = await Socket.ReadAsync(statResult, cancellationToken).ConfigureAwait(false);
-            ref FileStatisticsData data = ref Unsafe.As<byte, FileStatisticsData>(ref statResult[0]);
+            scoped ref FileStatisticsData data = ref Unsafe.As<byte, FileStatisticsData>(ref statResult[0]);
             return new FileStatistics(data);
 #endif
         }
@@ -704,7 +704,7 @@ namespace AdvancedSharpAdbClient
 #else
             byte[] statResult = new byte[FileStatisticsDataEx.Length];
             _ = await Socket.ReadAsync(statResult, cancellationToken).ConfigureAwait(false);
-            ref FileStatisticsDataEx data = ref Unsafe.As<byte, FileStatisticsDataEx>(ref statResult[0]);
+            scoped ref FileStatisticsDataEx data = ref Unsafe.As<byte, FileStatisticsDataEx>(ref statResult[0]);
             return new FileStatisticsEx(data);
 #endif
         }

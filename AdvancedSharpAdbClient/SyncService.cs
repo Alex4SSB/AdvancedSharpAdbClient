@@ -146,7 +146,7 @@ namespace AdvancedSharpAdbClient
         }
 
         /// <inheritdoc/>
-        public virtual void Push(Stream stream, string remotePath, UnixFileStatus permission, DateTimeOffset timestamp, Action<SyncProgressChangedEventArgs>? callback = null, bool useV2 = false, in bool isCancelled = false)
+        public virtual void Push(Stream stream, string remotePath, UnixFileStatus permission, DateTimeOffset timestamp, Action<SyncProgressChangedEventArgs>? callback = null, bool useV2 = false, scoped in bool isCancelled = false)
         {
             if (IsProcessing) { throw new InvalidOperationException($"The {nameof(SyncService)} is currently processing a request. Please {nameof(Clone)} a new {nameof(ISyncService)} or wait until the process is finished."); }
 
@@ -253,7 +253,7 @@ namespace AdvancedSharpAdbClient
         }
 
         /// <inheritdoc/>
-        public virtual void Pull(string remoteFilePath, Stream stream, Action<SyncProgressChangedEventArgs>? callback = null, bool useV2 = false, in bool isCancelled = false)
+        public virtual void Pull(string remoteFilePath, Stream stream, Action<SyncProgressChangedEventArgs>? callback = null, bool useV2 = false, scoped in bool isCancelled = false)
         {
             if (IsProcessing) { throw new InvalidOperationException($"The {nameof(SyncService)} is currently processing a request. Please {nameof(Clone)} a new {nameof(ISyncService)} or wait until the process is finished."); }
 
@@ -515,14 +515,14 @@ namespace AdvancedSharpAdbClient
         protected FileStatistics ReadStatistics()
         {
 #if COMP_NETSTANDARD2_1
-            Span<byte> statResult = stackalloc byte[FileStatisticsData.Length];
+            scoped Span<byte> statResult = stackalloc byte[FileStatisticsData.Length];
             _ = Socket.Read(statResult);
             FileStatisticsData data = EnumerableBuilder.FileStatisticsDataCreator(statResult);
             return new FileStatistics(data);
 #else
             byte[] statResult = new byte[FileStatisticsData.Length];
             _ = Socket.Read(statResult);
-            ref FileStatisticsData data = ref Unsafe.As<byte, FileStatisticsData>(ref statResult[0]);
+            scoped ref FileStatisticsData data = ref Unsafe.As<byte, FileStatisticsData>(ref statResult[0]);
             return new FileStatistics(data);
 #endif
         }
@@ -534,14 +534,14 @@ namespace AdvancedSharpAdbClient
         protected FileStatisticsEx ReadStatisticsV2()
         {
 #if COMP_NETSTANDARD2_1
-            Span<byte> statResult = stackalloc byte[FileStatisticsDataEx.Length];
+            scoped Span<byte> statResult = stackalloc byte[FileStatisticsDataEx.Length];
             _ = Socket.Read(statResult);
             FileStatisticsDataEx data = EnumerableBuilder.FileStatisticsDataV2Creator(statResult);
             return new FileStatisticsEx(data);
 #else
             byte[] statResult = new byte[FileStatisticsDataEx.Length];
             _ = Socket.Read(statResult);
-            ref FileStatisticsDataEx data = ref Unsafe.As<byte, FileStatisticsDataEx>(ref statResult[0]);
+            scoped ref FileStatisticsDataEx data = ref Unsafe.As<byte, FileStatisticsDataEx>(ref statResult[0]);
             return new FileStatisticsEx(data);
 #endif
         }

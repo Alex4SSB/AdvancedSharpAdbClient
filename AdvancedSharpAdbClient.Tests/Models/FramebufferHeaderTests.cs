@@ -42,7 +42,7 @@ namespace AdvancedSharpAdbClient.Models.Tests
         }
 
         /// <summary>
-        /// Tests the <see cref="FramebufferHeader(ReadOnlySpan{byte})"/> method.
+        /// Tests the <see cref="FramebufferHeader(in ReadOnlySpan{byte})"/> method.
         /// </summary>
         [Fact]
         public void ReadFramebufferBySpanTest()
@@ -104,7 +104,7 @@ namespace AdvancedSharpAdbClient.Models.Tests
         }
 
         /// <summary>
-        /// Tests the <see cref="FramebufferHeader(ReadOnlySpan{byte})"/> method.
+        /// Tests the <see cref="FramebufferHeader(in ReadOnlySpan{byte})"/> method.
         /// </summary>
         [Fact]
         public void ReadFramebufferV2BySpanTest()

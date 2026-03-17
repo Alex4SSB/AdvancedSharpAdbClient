@@ -221,7 +221,7 @@ namespace AdvancedSharpAdbClient.Models
             public string ToPermissionCode()
             {
 #if HAS_BUFFERS
-                Span<char> code = stackalloc char[10];
+                scoped Span<char> code = stackalloc char[10];
 #else
                 char[] code = new char[10];
 #endif

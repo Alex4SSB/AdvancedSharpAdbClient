@@ -74,9 +74,9 @@ namespace AdvancedSharpAdbClient.Models
         /// </summary>
         /// <param name="data">The data that feeds the <see cref="FramebufferHeader"/> struct.</param>
         [OverloadResolutionPriority(1)]
-        public FramebufferHeader(ReadOnlySpan<byte> data)
+        public FramebufferHeader(scoped in ReadOnlySpan<byte> data)
         {
-            ReadOnlySpan<byte> _data = data switch
+            scoped ReadOnlySpan<byte> _data = data switch
             {
                 { Length: < MinLength or > MaxLength } => throw new ArgumentOutOfRangeException(nameof(data), $"The length of {nameof(data)} must be {MinLength} or {MaxLength}."),
                 // Technically, 0 is not a supported version either; we assume version 0 indicates
@@ -204,7 +204,7 @@ namespace AdvancedSharpAdbClient.Models
         /// <param name="data">The data that feeds the <see cref="FramebufferHeader"/> struct.</param>
         /// <returns>A new <see cref="FramebufferHeader"/> object.</returns>
         [OverloadResolutionPriority(1)]
-        public static FramebufferHeader Read(ReadOnlySpan<byte> data) => new(data);
+        public static FramebufferHeader Read(scoped ReadOnlySpan<byte> data) => new(data);
 #endif
 
 #if HAS_IMAGING
@@ -522,7 +522,7 @@ namespace AdvancedSharpAdbClient.Models
         /// <inheritdoc/>
         public override string ToString()
         {
-            DefaultInterpolatedStringHandler handler = new(121, 10);
+            scoped DefaultInterpolatedStringHandler handler = new(121, 10);
             handler.AppendFormatted(GetType());
             handler.AppendLiteral($" {{ {nameof(Version)} = ");
             handler.AppendFormatted(Version);

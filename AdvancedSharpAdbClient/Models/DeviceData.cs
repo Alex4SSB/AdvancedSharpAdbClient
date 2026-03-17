@@ -213,7 +213,7 @@ namespace AdvancedSharpAdbClient.Models
                 return $"An empty {GetType()} without {nameof(TransportId)} and {nameof(Serial)}";
             }
 
-            DefaultInterpolatedStringHandler builder = new(55, 9);
+            scoped DefaultInterpolatedStringHandler builder = new(55, 9);
             builder.AppendLiteral(Serial);
             builder.AppendFormatted('\t');
 
@@ -337,7 +337,7 @@ namespace AdvancedSharpAdbClient.Models
         /// <returns>The value of the <see cref="DebuggerDisplayAttribute"/> for this instance.</returns>
         private string GetDebuggerDisplay()
         {
-            DefaultInterpolatedStringHandler builder = new(113, 9);
+            scoped DefaultInterpolatedStringHandler builder = new(113, 9);
             builder.AppendFormatted(GetType());
             builder.AppendLiteral($" {{ ");
 

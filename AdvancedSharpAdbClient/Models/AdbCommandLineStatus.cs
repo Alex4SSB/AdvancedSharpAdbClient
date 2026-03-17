@@ -95,12 +95,12 @@ namespace AdvancedSharpAdbClient.Models
         /// </summary>
         /// <param name="output">The output of the <c>adb.exe version</c> command.</param>
         /// <returns>A <see cref="AdbCommandLineStatus"/> object that represents the version and path of the adb command line client.</returns>
-        public static AdbCommandLineStatus GetVersionFromOutput(params ReadOnlySpan<string> output)
+        public static AdbCommandLineStatus GetVersionFromOutput(params scoped ReadOnlySpan<string> output)
         {
             int index = 0;
             Version? adbVersion = null;
             string? fileVersion = null, filePath = null;
-            ReadOnlySpan<string>.Enumerator enumerator = output.GetEnumerator();
+            scoped ReadOnlySpan<string>.Enumerator enumerator = output.GetEnumerator();
             while (index < 3 && enumerator.MoveNext())
             {
                 string line = enumerator.Current;

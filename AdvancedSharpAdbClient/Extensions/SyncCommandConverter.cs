@@ -50,7 +50,7 @@ namespace AdvancedSharpAdbClient.Models
             /// </summary>
             /// <param name="value">A byte array that represents a <see cref="SyncCommand"/>.</param>
             /// <returns>The corresponding <see cref="SyncCommand"/>.</returns>
-            public static SyncCommand GetCommand(ReadOnlySpan<byte> value) =>
+            public static SyncCommand GetCommand(scoped ReadOnlySpan<byte> value) =>
                 value.Length != 4 ? throw new ArgumentOutOfRangeException(nameof(value)) : (SyncCommand)BitConverter.ToInt32(value);
 #endif
         }

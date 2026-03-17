@@ -204,7 +204,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
             string remotePath, Stream stream,
             Action<SyncProgressChangedEventArgs>? callback = null,
             bool useV2 = false,
-            in bool isCancelled = false)
+            scoped in bool isCancelled = false)
         {
             using ISyncService service = Factories.SyncServiceFactory(client, device);
             service.Pull(remotePath, stream, callback, useV2, in isCancelled);
@@ -227,7 +227,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
             string remotePath, Stream stream, UnixFileStatus permission, DateTimeOffset timestamp,
             Action<SyncProgressChangedEventArgs>? callback = null,
             bool useV2 = false,
-            in bool isCancelled = false)
+            scoped in bool isCancelled = false)
         {
             using ISyncService service = Factories.SyncServiceFactory(client, device);
             service.Push(stream, remotePath, permission, timestamp, callback, useV2, in isCancelled);
@@ -421,7 +421,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
             string remotePath, Stream stream,
             IProgress<SyncProgressChangedEventArgs>? progress = null,
             bool useV2 = false,
-            in bool isCancelled = false)
+            scoped in bool isCancelled = false)
         {
             using ISyncService service = Factories.SyncServiceFactory(client, device);
             service.Pull(remotePath, stream, progress.AsAction(), useV2, in isCancelled);
@@ -444,7 +444,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
             string remotePath, Stream stream, UnixFileStatus permission, DateTimeOffset timestamp,
             IProgress<SyncProgressChangedEventArgs>? progress = null,
             bool useV2 = false,
-            in bool isCancelled = false)
+            scoped in bool isCancelled = false)
         {
             using ISyncService service = Factories.SyncServiceFactory(client, device);
             service.Push(stream, remotePath, permission, timestamp, progress.AsAction(), useV2, in isCancelled);
@@ -509,7 +509,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
             string remotePath, Stream stream, UnixFileMode permission, DateTimeOffset timestamp,
             Action<SyncProgressChangedEventArgs>? callback = null,
             bool useV2 = false,
-            in bool isCancelled = false)
+            scoped in bool isCancelled = false)
         {
             using ISyncService service = Factories.SyncServiceFactory(client, device);
             service.Push(stream, remotePath, (UnixFileStatus)permission, timestamp, callback, useV2, in isCancelled);
@@ -532,7 +532,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
             string remotePath, Stream stream, UnixFileMode permission, DateTimeOffset timestamp,
             IProgress<SyncProgressChangedEventArgs>? progress,
             bool useV2 = false,
-            in bool isCancelled = false)
+            scoped in bool isCancelled = false)
         {
             using ISyncService service = Factories.SyncServiceFactory(client, device);
             service.Push(stream, remotePath, (UnixFileStatus)permission, timestamp, progress.AsAction(), useV2, in isCancelled);
@@ -627,7 +627,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
             // Doing cat on each file one by one takes too much time. Doing cat on all of them at the same time doesn't work
             // either, because the command line would be too long.
             // So we do it 25 processes at at time.
-            DefaultInterpolatedStringHandler catBuilder = new(3, pids.Count);
+            scoped DefaultInterpolatedStringHandler catBuilder = new(3, pids.Count);
             ProcessOutputReceiver processOutputReceiver = new();
 
             catBuilder.AppendLiteral("cat");

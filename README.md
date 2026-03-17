@@ -56,8 +56,6 @@ if (!AdbServer.Instance.GetStatus().IsRunning)
 ### Connecting to device
 Before using all the methods, you must initialize the new AdbClient class and then connect to the device
 
-If you want to automate 2 or more devices at the same time, you must remember: 1 device - 1 AdbClient class
-
 You can look at the examples to understand more
 
 ```cs

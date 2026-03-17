@@ -26,7 +26,7 @@ namespace AdvancedSharpAdbClient.Models
         /// <inheritdoc/>
         public override string ToString()
         {
-            DefaultInterpolatedStringHandler builder = new(18, 2);
+            scoped DefaultInterpolatedStringHandler builder = new(18, 2);
             builder.AppendLiteral("Device changed");
             if (!Device.IsEmpty)
             {
@@ -76,7 +76,7 @@ namespace AdvancedSharpAdbClient.Models
         /// <inheritdoc/>
         public override string ToString()
         {
-            DefaultInterpolatedStringHandler builder = new(23, 2);
+            scoped DefaultInterpolatedStringHandler builder = new(23, 2);
             builder.AppendLiteral("Device ");
             builder.AppendLiteral(IsConnect ? "connected" : "disconnected");
             if (Device.IsEmpty)
@@ -120,7 +120,7 @@ namespace AdvancedSharpAdbClient.Models
         /// <inheritdoc/>
         public override string ToString()
         {
-            DefaultInterpolatedStringHandler builder = new(29, 4);
+            scoped DefaultInterpolatedStringHandler builder = new(29, 4);
             builder.AppendLiteral("Device state changed:");
             if (!Device.IsEmpty)
             {

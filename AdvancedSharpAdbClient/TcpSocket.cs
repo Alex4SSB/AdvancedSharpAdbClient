@@ -120,11 +120,11 @@ namespace AdvancedSharpAdbClient
 
 #if HAS_BUFFERS
         /// <inheritdoc/>
-        public int Send(ReadOnlySpan<byte> buffer, SocketFlags socketFlags) =>
+        public int Send(scoped ReadOnlySpan<byte> buffer, SocketFlags socketFlags) =>
             Socket.Send(buffer, socketFlags);
 
         /// <inheritdoc/>
-        public int Receive(Span<byte> buffer, SocketFlags socketFlags) =>
+        public int Receive(scoped Span<byte> buffer, SocketFlags socketFlags) =>
             Socket.Receive(buffer, socketFlags);
 #endif
 
@@ -134,7 +134,7 @@ namespace AdvancedSharpAdbClient
         /// <inheritdoc/>
         public override string ToString()
         {
-            DefaultInterpolatedStringHandler handler = new(33, 1);
+            scoped DefaultInterpolatedStringHandler handler = new(33, 1);
             handler.AppendLiteral("The ");
             handler.AppendFormatted(GetType());
 

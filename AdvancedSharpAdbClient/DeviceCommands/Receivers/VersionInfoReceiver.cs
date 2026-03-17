@@ -92,7 +92,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands.Receivers
             if (inPackagesSection && line != null)
             {
 #if HAS_BUFFERS
-                ReadOnlySpan<char> span = line.AsSpan().Trim();
+                scoped ReadOnlySpan<char> span = line.AsSpan().Trim();
                 if (span.StartsWith("versionName="))
                 {
                     return span[12..].Trim().ToString();

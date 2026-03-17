@@ -91,7 +91,7 @@ namespace AdvancedSharpAdbClient
         /// </summary>
         /// <param name="reply">The reply.</param>
         /// <returns><see langword="true"/> if the specified reply is okay; otherwise, <see langword="false"/>.</returns>
-        public static bool IsOkay(ReadOnlySpan<byte> reply) => AdbClient.Encoding.GetString(reply).Equals("OKAY");
+        public static bool IsOkay(scoped ReadOnlySpan<byte> reply) => AdbClient.Encoding.GetString(reply).Equals("OKAY");
 #endif
 
         /// <inheritdoc/>
@@ -219,7 +219,7 @@ namespace AdvancedSharpAdbClient
 
 #if NET10_0_OR_GREATER
         /// <inheritdoc/>
-        public void SendAdbRequest(DefaultInterpolatedStringHandler request)
+        public void SendAdbRequest(scoped DefaultInterpolatedStringHandler request)
         {
             byte[] data = AdbClient.FormAdbRequest(request.Text);
             if (!Write(data))
@@ -358,7 +358,7 @@ namespace AdvancedSharpAdbClient
 
 #if COMP_NETSTANDARD2_1
         /// <inheritdoc/>
-        public virtual void Send(ReadOnlySpan<byte> data)
+        public virtual void Send(scoped ReadOnlySpan<byte> data)
         {
             try
             {
@@ -376,7 +376,7 @@ namespace AdvancedSharpAdbClient
         }
 
         /// <inheritdoc/>
-        public virtual int Read(Span<byte> data)
+        public virtual int Read(scoped Span<byte> data)
         {
             int count = -1;
             int totalRead = 0;
@@ -484,7 +484,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="data">The data to send.</param>
         /// <returns>Returns <see langword="true"/> if all data was written; otherwise, <see langword="false"/>.</returns>
         /// <remarks>This uses the default time out value.</remarks>
-        protected virtual bool Write(ReadOnlySpan<byte> data)
+        protected virtual bool Write(scoped ReadOnlySpan<byte> data)
         {
             try
             {
@@ -547,7 +547,7 @@ namespace AdvancedSharpAdbClient
         /// </summary>
         /// <param name="reply">A <see cref="byte"/> array that represents the ADB reply.</param>
         /// <returns>A <see cref="string"/> that represents the ADB reply.</returns>
-        protected string ReplyToString(ReadOnlySpan<byte> reply)
+        protected string ReplyToString(scoped ReadOnlySpan<byte> reply)
         {
             string result;
             try

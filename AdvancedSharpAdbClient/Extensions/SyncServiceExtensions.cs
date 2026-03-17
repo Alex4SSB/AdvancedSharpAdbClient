@@ -57,7 +57,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="isCancelled">A <see cref="bool"/> that can be used to cancel the task.</param>
         /// <remarks>V2 need Android 11 or above.</remarks>
         [MethodImpl((MethodImplOptions)0x100)]
-        public static void Push(this ISyncService service, Stream stream, string remotePath, UnixFileStatus permissions, DateTimeOffset timestamp, IProgress<SyncProgressChangedEventArgs>? progress = null, bool useV2 = false, in bool isCancelled = false) =>
+        public static void Push(this ISyncService service, Stream stream, string remotePath, UnixFileStatus permissions, DateTimeOffset timestamp, IProgress<SyncProgressChangedEventArgs>? progress = null, bool useV2 = false, scoped in bool isCancelled = false) =>
             service.Push(stream, remotePath, permissions, timestamp, progress.AsAction(), useV2, isCancelled);
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="isCancelled">A <see cref="bool"/> that can be used to cancel the task.</param>
         /// <remarks>File size bigger than 4GB need V2, and V2 need Android 11 or above.</remarks>
         [MethodImpl((MethodImplOptions)0x100)]
-        public static void Pull(this ISyncService service, string remotePath, Stream stream, IProgress<SyncProgressChangedEventArgs>? progress = null, bool useV2 = false, in bool isCancelled = false) =>
+        public static void Pull(this ISyncService service, string remotePath, Stream stream, IProgress<SyncProgressChangedEventArgs>? progress = null, bool useV2 = false, scoped in bool isCancelled = false) =>
             service.Pull(remotePath, stream, progress.AsAction(), useV2, isCancelled);
 
 #if NET7_0_OR_GREATER
@@ -88,7 +88,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="isCancelled">A <see cref="bool"/> that can be used to cancel the task.</param>
         /// <remarks>V2 need Android 11 or above.</remarks>
         [MethodImpl((MethodImplOptions)0x100)]
-        public static void Push(this ISyncService service, Stream stream, string remotePath, UnixFileMode permissions, DateTimeOffset timestamp, Action<SyncProgressChangedEventArgs>? callback = null, bool useV2 = false, in bool isCancelled = false) =>
+        public static void Push(this ISyncService service, Stream stream, string remotePath, UnixFileMode permissions, DateTimeOffset timestamp, Action<SyncProgressChangedEventArgs>? callback = null, bool useV2 = false, scoped in bool isCancelled = false) =>
             service.Push(stream, remotePath, (UnixFileStatus)permissions, timestamp, callback, useV2, isCancelled);
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="isCancelled">A <see cref="bool"/> that can be used to cancel the task.</param>
         /// <remarks>V2 need Android 11 or above.</remarks>
         [MethodImpl((MethodImplOptions)0x100)]
-        public static void Push(this ISyncService service, Stream stream, string remotePath, UnixFileMode permissions, DateTimeOffset timestamp, IProgress<SyncProgressChangedEventArgs>? progress, bool useV2 = false, in bool isCancelled = false) =>
+        public static void Push(this ISyncService service, Stream stream, string remotePath, UnixFileMode permissions, DateTimeOffset timestamp, IProgress<SyncProgressChangedEventArgs>? progress, bool useV2 = false, scoped in bool isCancelled = false) =>
             service.Push(stream, remotePath, (UnixFileStatus)permissions, timestamp, progress.AsAction(), useV2, isCancelled);
 #endif
 #endif

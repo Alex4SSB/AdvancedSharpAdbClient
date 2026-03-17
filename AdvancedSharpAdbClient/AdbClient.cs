@@ -185,12 +185,12 @@ namespace AdvancedSharpAdbClient
         /// </summary>
         /// <param name="req">The request to form.</param>
         /// <returns>An array containing <c>####req</c>.</returns>
-        public static byte[] FormAdbRequest(ReadOnlySpan<char> req)
+        public static byte[] FormAdbRequest(scoped ReadOnlySpan<char> req)
         {
             int payloadLength = Encoding.GetByteCount(req);
 #if NET10_0_OR_GREATER
-            DefaultInterpolatedStringHandler resultStr = $"{payloadLength:X4}{req}";
-            ReadOnlySpan<char> text = resultStr.Text;
+            scoped DefaultInterpolatedStringHandler resultStr = $"{payloadLength:X4}{req}";
+            scoped ReadOnlySpan<char> text = resultStr.Text;
             int byteCount = Encoding.GetByteCount(text);
             byte[] result = new byte[byteCount];
             _ = Encoding.GetBytes(text, result);
@@ -207,10 +207,10 @@ namespace AdvancedSharpAdbClient
         /// <param name="address">The address.</param>
         /// <param name="port">The port.</param>
         /// <returns>This returns an array containing <c>"####tcp:{port}:{addStr}"</c>.</returns>
-        public static byte[] CreateAdbForwardRequest(ReadOnlySpan<char> address, int port)
+        public static byte[] CreateAdbForwardRequest(scoped ReadOnlySpan<char> address, int port)
         {
 #if NET10_0_OR_GREATER
-            DefaultInterpolatedStringHandler request = address.IsEmpty ? (DefaultInterpolatedStringHandler)$"tcp:{port}" : $"tcp:{port}:{address}";
+            scoped DefaultInterpolatedStringHandler request = address.IsEmpty ? (DefaultInterpolatedStringHandler)$"tcp:{port}" : $"tcp:{port}:{address}";
             return FormAdbRequest(request.Text);
 #else
             string request = address == null ? $"tcp:{port}" : $"tcp:{port}:{address}";
@@ -372,7 +372,7 @@ namespace AdvancedSharpAdbClient
         /// <inheritdoc/>
         public virtual void ExecuteServerCommand(string target, string command, IAdbSocket socket)
         {
-            DefaultInterpolatedStringHandler request = new(1, 2);
+            scoped DefaultInterpolatedStringHandler request = new(1, 2);
             if (!string.IsNullOrWhiteSpace(target))
             {
                 request.AppendLiteral(target);
@@ -422,7 +422,7 @@ namespace AdvancedSharpAdbClient
         {
             ArgumentNullException.ThrowIfNull(encoding);
 
-            DefaultInterpolatedStringHandler request = new(1, 2);
+            scoped DefaultInterpolatedStringHandler request = new(1, 2);
             if (!string.IsNullOrWhiteSpace(target))
             {
                 request.AppendLiteral(target);
@@ -484,7 +484,7 @@ namespace AdvancedSharpAdbClient
         {
             ArgumentNullException.ThrowIfNull(encoding);
 
-            DefaultInterpolatedStringHandler request = new(1, 2);
+            scoped DefaultInterpolatedStringHandler request = new(1, 2);
             if (!string.IsNullOrWhiteSpace(target))
             {
                 request.AppendLiteral(target);
@@ -540,7 +540,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             socket.SetDevice(device);
 
-            DefaultInterpolatedStringHandler request = new(19, logNames.Length);
+            scoped DefaultInterpolatedStringHandler request = new(19, logNames.Length);
             request.AppendLiteral("shell:logcat -B");
 
             foreach (LogId logName in logNames)
@@ -579,7 +579,7 @@ namespace AdvancedSharpAdbClient
         }
 
         /// <inheritdoc/>
-        public void RunLogService(DeviceData device, Action<LogEntry> messageSink, in bool isCancelled = false, params LogId[] logNames)
+        public void RunLogService(DeviceData device, Action<LogEntry> messageSink, scoped in bool isCancelled = false, params LogId[] logNames)
         {
             EnsureDevice(device);
             ArgumentNullException.ThrowIfNull(messageSink);
@@ -589,7 +589,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             socket.SetDevice(device);
 
-            DefaultInterpolatedStringHandler request = new(19, logNames.Length);
+            scoped DefaultInterpolatedStringHandler request = new(19, logNames.Length);
             request.AppendLiteral("shell:logcat -B");
 
             foreach (LogId logName in logNames)
@@ -762,7 +762,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             socket.SetDevice(device);
 
-            DefaultInterpolatedStringHandler requestBuilder = new(31, (arguments?.Length ?? 0) + 1);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(31, (arguments?.Length ?? 0) + 1);
             requestBuilder.AppendLiteral("exec:cmd package 'install'");
 
             if (arguments != null)
@@ -932,7 +932,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             socket.SetDevice(device);
 
-            DefaultInterpolatedStringHandler requestBuilder = new(33, arguments?.Length ?? 0);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(33, arguments?.Length ?? 0);
             requestBuilder.AppendLiteral("exec:cmd package 'install-create'");
 
             if (arguments != null)
@@ -969,7 +969,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             socket.SetDevice(device);
 
-            DefaultInterpolatedStringHandler requestBuilder = new(37 + packageName.Length, arguments?.Length ?? 0);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(37 + packageName.Length, arguments?.Length ?? 0);
             requestBuilder.AppendLiteral("exec:cmd package 'install-create'");
             requestBuilder.AppendFormatted(" -p ");
             requestBuilder.AppendLiteral(packageName);
@@ -1148,7 +1148,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             socket.SetDevice(device);
 
-            DefaultInterpolatedStringHandler requestBuilder = new(29, (arguments?.Length ?? 0) + 1);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(29, (arguments?.Length ?? 0) + 1);
             requestBuilder.AppendLiteral("exec:cmd package 'uninstall'");
 
             if (arguments != null)
@@ -1222,7 +1222,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="device">A <see cref="DeviceData"/> object to validate.</param>
         /// <param name="paramName">The name of the parameter with which <paramref name="device"/> corresponds.</param>
         /// <exception cref="ArgumentOutOfRangeException">The <paramref name="device"/> does not have a valid serial number.</exception>
-        protected static void EnsureDevice(in DeviceData device, [CallerArgumentExpression(nameof(device))] string? paramName = "device")
+        protected static void EnsureDevice(scoped in DeviceData device, [CallerArgumentExpression(nameof(device))] string? paramName = "device")
         {
             if (device.IsEmpty)
             {

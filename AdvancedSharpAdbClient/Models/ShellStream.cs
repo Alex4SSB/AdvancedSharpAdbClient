@@ -70,7 +70,7 @@ namespace AdvancedSharpAdbClient.Models
 
 #if HAS_BUFFERS
         /// <inheritdoc/>
-        public override int Read(Span<byte> buffer)
+        public override int Read(scoped Span<byte> buffer)
         {
             if (buffer.Length == 0)
             {

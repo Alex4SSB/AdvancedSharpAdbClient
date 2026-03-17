@@ -169,7 +169,7 @@ namespace AdvancedSharpAdbClient
         /// <inheritdoc/>
         public virtual async Task ExecuteServerCommandAsync(string target, string command, IAdbSocket socket, CancellationToken cancellationToken = default)
         {
-            DefaultInterpolatedStringHandler request = new(1, 2);
+            scoped DefaultInterpolatedStringHandler request = new(1, 2);
             if (!string.IsNullOrWhiteSpace(target))
             {
                 request.AppendLiteral(target);
@@ -228,7 +228,7 @@ namespace AdvancedSharpAdbClient
         {
             ArgumentNullException.ThrowIfNull(encoding);
 
-            DefaultInterpolatedStringHandler request = new(1, 2);
+            scoped DefaultInterpolatedStringHandler request = new(1, 2);
             if (!string.IsNullOrWhiteSpace(target))
             {
                 request.AppendLiteral(target);
@@ -298,7 +298,7 @@ namespace AdvancedSharpAdbClient
         {
             ArgumentNullException.ThrowIfNull(encoding);
 
-            DefaultInterpolatedStringHandler request = new(1, 2);
+            scoped DefaultInterpolatedStringHandler request = new(1, 2);
             if (!string.IsNullOrWhiteSpace(target))
             {
                 request.AppendLiteral(target);
@@ -361,7 +361,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             await socket.SetDeviceAsync(device, cancellationToken).ConfigureAwait(false);
 
-            DefaultInterpolatedStringHandler request = new(19, logNames.Length);
+            scoped DefaultInterpolatedStringHandler request = new(19, logNames.Length);
             request.AppendLiteral("shell:logcat -B");
 
             foreach (LogId logName in logNames)
@@ -415,7 +415,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             await socket.SetDeviceAsync(device, cancellationToken).ConfigureAwait(false);
 
-            DefaultInterpolatedStringHandler request = new(19, logNames.Length);
+            scoped DefaultInterpolatedStringHandler request = new(19, logNames.Length);
             request.AppendLiteral("shell:logcat -B");
 
             foreach (LogId logName in logNames)
@@ -584,7 +584,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             await socket.SetDeviceAsync(device, cancellationToken).ConfigureAwait(false);
 
-            DefaultInterpolatedStringHandler requestBuilder = new(31, (arguments?.Length ?? 0) + 1);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(31, (arguments?.Length ?? 0) + 1);
             requestBuilder.AppendLiteral("exec:cmd package 'install'");
 
             if (arguments != null)
@@ -746,7 +746,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             await socket.SetDeviceAsync(device, cancellationToken).ConfigureAwait(false);
 
-            DefaultInterpolatedStringHandler requestBuilder = new(33, arguments?.Length ?? 0);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(33, arguments?.Length ?? 0);
             requestBuilder.AppendLiteral("exec:cmd package 'install-create'");
 
             if (arguments != null)
@@ -784,7 +784,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             await socket.SetDeviceAsync(device, cancellationToken).ConfigureAwait(false);
 
-            DefaultInterpolatedStringHandler requestBuilder = new(37 + packageName.Length, arguments?.Length ?? 0);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(37 + packageName.Length, arguments?.Length ?? 0);
             requestBuilder.AppendLiteral("exec:cmd package 'install-create'");
             requestBuilder.AppendFormatted(" -p ");
             requestBuilder.AppendLiteral(packageName);
@@ -972,7 +972,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             await socket.SetDeviceAsync(device, cancellationToken).ConfigureAwait(false);
 
-            DefaultInterpolatedStringHandler requestBuilder = new(30, (arguments?.Length ?? 0) + 1);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(30, (arguments?.Length ?? 0) + 1);
             requestBuilder.AppendLiteral("exec:cmd package 'install'");
 
             if (arguments != null)
@@ -1251,7 +1251,7 @@ namespace AdvancedSharpAdbClient
             using IAdbSocket socket = CreateAdbSocket();
             await socket.SetDeviceAsync(device, cancellationToken).ConfigureAwait(false);
 
-            DefaultInterpolatedStringHandler requestBuilder = new(29, (arguments?.Length ?? 0) + 1);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(29, (arguments?.Length ?? 0) + 1);
             requestBuilder.AppendLiteral("exec:cmd package 'uninstall'");
 
             if (arguments != null)

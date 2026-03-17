@@ -24,7 +24,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="values">The data that feeds the <see cref="AdbCommandLineStatus"/> struct.</param>
         /// <returns>A new instance of <see cref="AdbCommandLineStatus"/> struct.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static AdbCommandLineStatus AdbCommandLineStatusCreator(params ReadOnlySpan<string> values) =>
+        public static AdbCommandLineStatus AdbCommandLineStatusCreator(params scoped ReadOnlySpan<string> values) =>
             AdbCommandLineStatus.GetVersionFromOutput(values);
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="values">The data that feeds the <see cref="ColorData"/> struct.</param>
         /// <returns>A new instance of <see cref="ColorData"/> struct.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ColorData ColorDataCreator(ReadOnlySpan<byte> values) => Unsafe.As<byte, ColorData>(ref MemoryMarshal.GetReference(values));
+        public static ColorData ColorDataCreator(scoped ReadOnlySpan<byte> values) => Unsafe.As<byte, ColorData>(ref MemoryMarshal.GetReference(values));
 
         /// <summary>
         /// Build a <see cref="FramebufferHeader"/> struct.
@@ -41,7 +41,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="values">The data that feeds the <see cref="FramebufferHeader"/> struct.</param>
         /// <returns>A new instance of <see cref="FramebufferHeader"/> struct.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static FramebufferHeader FramebufferHeaderCreator(ReadOnlySpan<byte> values) => new(values);
+        public static FramebufferHeader FramebufferHeaderCreator(scoped ReadOnlySpan<byte> values) => new(values);
 
         /// <summary>
         /// Build a <see cref="FileStatisticsData"/> struct.
@@ -49,7 +49,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="values">The data that feeds the <see cref="FileStatisticsData"/> struct.</param>
         /// <returns>A new instance of <see cref="FileStatisticsData"/> struct.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static FileStatisticsData FileStatisticsDataCreator(ReadOnlySpan<byte> values) => Unsafe.As<byte, FileStatisticsData>(ref MemoryMarshal.GetReference(values));
+        public static FileStatisticsData FileStatisticsDataCreator(scoped ReadOnlySpan<byte> values) => Unsafe.As<byte, FileStatisticsData>(ref MemoryMarshal.GetReference(values));
 
         /// <summary>
         /// Build a <see cref="FileStatisticsDataEx"/> struct.
@@ -57,7 +57,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="values">The data that feeds the <see cref="FileStatisticsDataEx"/> struct.</param>
         /// <returns>A new instance of <see cref="FileStatisticsDataEx"/> struct.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static FileStatisticsDataEx FileStatisticsDataV2Creator(ReadOnlySpan<byte> values) => Unsafe.As<byte, FileStatisticsDataEx>(ref MemoryMarshal.GetReference(values));
+        public static FileStatisticsDataEx FileStatisticsDataV2Creator(scoped ReadOnlySpan<byte> values) => Unsafe.As<byte, FileStatisticsDataEx>(ref MemoryMarshal.GetReference(values));
 
         /// <summary>
         /// Build a <see cref="UnixFileStatus"/> enum.
@@ -65,14 +65,14 @@ namespace AdvancedSharpAdbClient
         /// <param name="values">The data that feeds the <see cref="UnixFileStatus"/> struct.</param>
         /// <returns>A new instance of <see cref="UnixFileStatus"/> struct.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UnixFileStatus UnixFileStatusCreator(ReadOnlySpan<byte> values) => (UnixFileStatus)BitConverter.ToUInt32(values);
+        public static UnixFileStatus UnixFileStatusCreator(scoped ReadOnlySpan<byte> values) => (UnixFileStatus)BitConverter.ToUInt32(values);
 
         /// <summary>
         /// Build a <see cref="LogEntry"/> class.
         /// </summary>
         /// <param name="values">The data that feeds the <see cref="LogEntry"/> struct.</param>
         /// <returns>A new instance of <see cref="LogEntry"/> struct.</returns>
-        public static LogEntry? LogEntryCreator(ReadOnlySpan<byte> values)
+        public static LogEntry? LogEntryCreator(scoped ReadOnlySpan<byte> values)
         {
             if (values.IsEmpty) { return null; }
             int index = 0;
@@ -146,7 +146,7 @@ namespace AdvancedSharpAdbClient
                 }
             }
 
-            ReadOnlySpan<byte> data = ReadBytesSafe(values, payloadLength);
+            scoped ReadOnlySpan<byte> data = ReadBytesSafe(values, payloadLength);
 
             if (data.IsEmpty)
             {
@@ -275,25 +275,25 @@ namespace AdvancedSharpAdbClient
                 }
             }
 
-            ushort? ReadUInt16(in ReadOnlySpan<byte> bytes)
+            ushort? ReadUInt16(scoped in ReadOnlySpan<byte> bytes)
             {
-                ReadOnlySpan<byte> data = ReadBytesSafe(bytes, 2);
+                scoped ReadOnlySpan<byte> data = ReadBytesSafe(bytes, 2);
                 return data.IsEmpty ? null : BitConverter.ToUInt16(data);
             }
 
-            uint? ReadUInt32(in ReadOnlySpan<byte> bytes)
+            uint? ReadUInt32(scoped in ReadOnlySpan<byte> bytes)
             {
-                ReadOnlySpan<byte> data = ReadBytesSafe(bytes, 4);
+                scoped ReadOnlySpan<byte> data = ReadBytesSafe(bytes, 4);
                 return data.IsEmpty ? null : BitConverter.ToUInt32(data);
             }
 
-            int? ReadInt32(in ReadOnlySpan<byte> bytes)
+            int? ReadInt32(scoped in ReadOnlySpan<byte> bytes)
             {
-                ReadOnlySpan<byte> data = ReadBytesSafe(bytes, 4);
+                scoped ReadOnlySpan<byte> data = ReadBytesSafe(bytes, 4);
                 return data.Length != 4 ? null : BitConverter.ToInt32(data);
             }
 
-            ReadOnlySpan<byte> ReadBytesSafe(in ReadOnlySpan<byte> bytes, int count)
+            ReadOnlySpan<byte> ReadBytesSafe(scoped in ReadOnlySpan<byte> bytes, int count)
             {
                 if (bytes.Length < index + count) { return null; }
                 ReadOnlySpan<byte> data = bytes.Slice(index, count);

@@ -106,7 +106,7 @@ namespace AdvancedSharpAdbClient.Models
         /// equal to the size of the structure in bytes.</returns>
         public byte[] ToArray()
         {
-            ref readonly ColorData data = ref this;
+            scoped ref readonly ColorData data = ref this;
             unsafe
             {
                 byte[] array = new byte[Size];

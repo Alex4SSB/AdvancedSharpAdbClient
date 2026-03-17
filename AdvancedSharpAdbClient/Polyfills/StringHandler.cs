@@ -278,7 +278,7 @@ namespace System.Runtime.CompilerServices
         /// Writes the specified character span to the handler.
         /// </summary>
         /// <param name="value">The span to write.</param>
-        public void AppendFormatted(ReadOnlySpan<char> value) => _ = _stringBuilder.Append(value);
+        public void AppendFormatted(scoped ReadOnlySpan<char> value) => _ = _stringBuilder.Append(value);
 
         /// <summary>
         /// Writes the specified string of chars to the handler.
@@ -286,7 +286,7 @@ namespace System.Runtime.CompilerServices
         /// <param name="value">The span to write.</param>
         /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
         /// <param name="__">The format string.</param>
-        public void AppendFormatted(ReadOnlySpan<char> value, int alignment = 0, string? __ = null)
+        public void AppendFormatted(scoped ReadOnlySpan<char> value, int alignment = 0, string? __ = null)
         {
             bool leftAlign = false;
             if (alignment < 0)
@@ -428,5 +428,5 @@ namespace System.Runtime.CompilerServices
     }
 }
 #else
-        [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.DefaultInterpolatedStringHandler))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.DefaultInterpolatedStringHandler))]
 #endif

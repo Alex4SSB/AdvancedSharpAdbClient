@@ -14,7 +14,7 @@ namespace AdvancedSharpAdbClient.Models
     /// <typeparam name="T">The type of the data for file.</typeparam>
     /// <typeparam name="TSelf">The type of the derived class.</typeparam>
     /// <param name="data">The <typeparamref name="T"/> for the data of file.</param>
-    public abstract class FileStatisticsBase<T, TSelf>(in T data) : IEquatable<TSelf>, IEquatable<FileStatisticsBase<T, TSelf>>
+    public abstract class FileStatisticsBase<T, TSelf>(scoped in T data) : IEquatable<TSelf>, IEquatable<FileStatisticsBase<T, TSelf>>
 #if NET7_0_OR_GREATER
         , IEqualityOperators<TSelf, TSelf, bool>, IEqualityOperators<TSelf, FileStatisticsBase<T, TSelf>, bool>
 #endif

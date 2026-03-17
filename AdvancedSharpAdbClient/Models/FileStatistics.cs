@@ -13,7 +13,7 @@ namespace AdvancedSharpAdbClient.Models
     /// </summary>
     /// <param name="data">The data of the file.</param>
     [DebuggerDisplay($"{{{nameof(GetType)}().{nameof(Type.ToString)}(),nq}} \\{{ {nameof(Path)} = {{{nameof(Path)}}}, {nameof(FileMode)} = {{{nameof(FileMode)}}}, {nameof(Size)} = {{{nameof(Size)}}}, {nameof(Time)} = {{{nameof(Time)}}} }}")]
-    public sealed class FileStatistics(in FileStatisticsData data) : FileStatisticsBase<FileStatisticsData, FileStatistics>(data), IFileStatistics
+    public sealed class FileStatistics(scoped in FileStatisticsData data) : FileStatisticsBase<FileStatisticsData, FileStatistics>(data), IFileStatistics
 #if NET7_0_OR_GREATER
         , IEqualityOperators<FileStatistics, FileStatistics, bool>
 #endif

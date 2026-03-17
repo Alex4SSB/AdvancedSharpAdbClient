@@ -88,7 +88,7 @@ namespace AdvancedSharpAdbClient.Models
                 split.Add(c);
             }
 
-            DefaultInterpolatedStringHandler builder = new(4, 4);
+            scoped DefaultInterpolatedStringHandler builder = new(4, 4);
 #if NET
             builder.AppendFormatted(CollectionsMarshal.AsSpan(split));
 #elif HAS_BUFFERS

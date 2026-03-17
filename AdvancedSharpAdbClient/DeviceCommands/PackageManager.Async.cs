@@ -23,7 +23,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
         {
             ValidateDevice();
 
-            DefaultInterpolatedStringHandler requestBuilder = new(19, Arguments?.Length ?? 0);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(19, Arguments?.Length ?? 0);
             requestBuilder.AppendLiteral(ListFull);
 
             if (Arguments != null)
@@ -84,7 +84,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
 
             ValidateDevice();
 
-            DefaultInterpolatedStringHandler requestBuilder = new(13, (arguments?.Length ?? 0) + 1);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(13, (arguments?.Length ?? 0) + 1);
             requestBuilder.AppendLiteral("pm install");
 
             if (arguments != null)
@@ -450,7 +450,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
         {
             ValidateDevice();
 
-            DefaultInterpolatedStringHandler requestBuilder = new(13, (arguments?.Length ?? 0) + 1);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(13, (arguments?.Length ?? 0) + 1);
             requestBuilder.AppendLiteral("pm uninstall");
 
             if (arguments != null)
@@ -500,7 +500,7 @@ namespace AdvancedSharpAdbClient.DeviceCommands
         {
             ValidateDevice();
 
-            DefaultInterpolatedStringHandler requestBuilder = new(21, (arguments?.Length ?? 0) + 1);
+            scoped DefaultInterpolatedStringHandler requestBuilder = new(21, (arguments?.Length ?? 0) + 1);
             requestBuilder.AppendLiteral("pm install-create");
 
             if (!string.IsNullOrWhiteSpace(packageName))

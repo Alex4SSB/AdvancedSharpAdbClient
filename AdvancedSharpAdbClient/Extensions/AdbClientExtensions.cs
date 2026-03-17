@@ -398,7 +398,7 @@ namespace AdvancedSharpAdbClient
         /// <param name="isCancelled">A <see cref="bool"/> that can be used to cancel the task.</param>
         /// <param name="logNames">Optionally, the names of the logs to receive.</param>
         [MethodImpl((MethodImplOptions)0x100)]
-        public static void RunLogService(this IAdbClient client, DeviceData device, IProgress<LogEntry> progress, in bool isCancelled, params LogId[] logNames) =>
+        public static void RunLogService(this IAdbClient client, DeviceData device, IProgress<LogEntry> progress, scoped in bool isCancelled, params LogId[] logNames) =>
             client.RunLogService(device, progress.Report, isCancelled, logNames);
 
         /// <summary>
